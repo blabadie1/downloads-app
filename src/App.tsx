@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import downloadData from './downloads.json';
+import downloadData from "./downloads.json";
 
 import "./App.css";
 // @ts-ignore

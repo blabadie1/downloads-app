@@ -1,13 +1,13 @@
 // @ts-ignore
 import Row from "../Row/index.tsx";
 // @ts-ignore
-import type {DownloadData} from '../types.tsx';
+import type { DownloadData } from "../types.tsx";
 
 type Props = {
-  downloads: Array<DownloadData>
+  downloads: Array<DownloadData>;
 };
 
-const Table = ({downloads}: Props) => {
+const Table = ({ downloads }: Props) => {
   return (
     <>
       <div className="table-header-actions">
@@ -22,7 +22,7 @@ const Table = ({downloads}: Props) => {
       </div>
       <table className="table-header">
         <tr>
-          <th>Checked</th>
+          <th></th>
           <th>Name</th>
           <th>Device</th>
           <th>Path</th>

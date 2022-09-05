@@ -1,6 +1,6 @@
 export type DownloadData = {
-    name: string,
-    device: string,
-    path: string,
-    status: string    
+  name: string;
+  device: string;
+  path: string;
+  status: string;
 };
