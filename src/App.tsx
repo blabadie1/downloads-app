@@ -9,7 +9,7 @@ const App = () => {
   const [downloads, setDownloads] = useState(undefined);
 
   useEffect(() => {
-    const getData = async () => {
+    const getData = () => {
       setDownloads(downloadData.response);
     };
     if (!downloads) {

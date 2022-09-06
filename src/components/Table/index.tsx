@@ -12,6 +12,12 @@ type Props = {
 const Table = ({ downloads }: Props) => {
   const [selections, setSelections] = useState([]);
   const [hasValidDownload, setValidDownload] = useState(false);
+  const [allSelected, setAllSelected] = useState(false);
+
+  const numSelected = selections.reduce(
+    (prevVal, currVal) => prevVal + currVal,
+    0
+  );
 
   useEffect(() => {
     if (downloads) {
@@ -19,6 +25,7 @@ const Table = ({ downloads }: Props) => {
     }
   }, [downloads]);
 
+  // Show/hide download button depending on selections
   useEffect(() => {
     let hasValidDownload = false;
     selections.forEach((selection, index) => {
@@ -28,6 +35,27 @@ const Table = ({ downloads }: Props) => {
     });
     setValidDownload(hasValidDownload);
   }, [selections, downloads]);
+
+  // Update 'Select All' checkbox after selections change
+  useEffect(() => {
+    const checkbox = document.getElementById("all-selected-checkbox");
+    let indeterminate = false;
+
+    // If some but not all rows selected, show indeterminate state
+    if (numSelected && numSelected < selections.length) {
+      indeterminate = true;
+      setAllSelected(false);
+    }
+    // @ts-ignore
+    checkbox.indeterminate = indeterminate;
+
+    // As rows are individually selected, keep 'Select All' checkbox updated
+    if (!numSelected) {
+      setAllSelected(false);
+    } else if (numSelected === selections.length) {
+      setAllSelected(true);
+    }
+  }, [selections]);
 
   const updateSelected = useCallback(
     (index: number) => {
@@ -50,19 +78,22 @@ const Table = ({ downloads }: Props) => {
     window.alert(alertMessage);
   }, [downloads, selections]);
 
-  const numSelected = selections.reduce(
-    (prevVal, currVal) => prevVal + currVal,
-    0
-  );
+  const handleCheckAll = useCallback(() => {
+    setSelections(new Array(downloads.length).fill(!allSelected));
+  }, [downloads, selections, allSelected]);
 
   return (
     <>
       <div className="table-header-actions">
         <input
           type="checkbox"
-          id="selected-checkbox"
-          name="selected-checkbox"
-          value="selected"
+          id="all-selected-checkbox"
+          name="all-selected-checkbox"
+          value="all-selected"
+          onChange={() => {
+            handleCheckAll();
+          }}
+          checked={allSelected}
         ></input>
         <label htmlFor="selected-checkbox">
           {numSelected ? `Selected ${numSelected}` : "None Selected"}

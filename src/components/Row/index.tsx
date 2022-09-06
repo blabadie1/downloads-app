@@ -20,6 +20,7 @@ const Row = ({ download, index, handleCheck, selected }: Props) => {
           onChange={() => {
             handleCheck(index);
           }}
+          checked={selected}
         ></input>
       </td>
       <td>{download.name}</td>
