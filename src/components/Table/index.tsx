@@ -86,47 +86,52 @@ const Table = ({ downloads }: Props) => {
   return (
     <>
       <table id="table">
-        <tr id="table-header-actions">
-          <th>
-            <input
-              type="checkbox"
-              id="all-selected-checkbox"
-              name="all-selected-checkbox"
-              value="all-selected"
-              onChange={() => {
-                handleCheckAll();
-              }}
-              checked={allSelected}
-              aria-labelledby="select-all-checkbox-label"
-            ></input>
-          </th>
-          <th id="num-selected">
-            <label id="select-all-checkbox-label">
-              {numSelected ? `Selected ${numSelected}` : "None Selected"}
-            </label>
-          </th>
-          {/* Only show download button if something is selected */}
-          <th id="download-button">
-            {hasValidDownload ? (
-              <button onClick={handleClick}>Download Selected</button>
-            ) : null}
-          </th>
-        </tr>
-        <tr id="table-header-rows">
-          <th></th>
-          <th>Name</th>
-          <th>Device</th>
-          <th>Path</th>
-          <th>Status</th>
-        </tr>
-        {downloads?.map((download, index) => (
-          <Row
-            handleCheck={handleSelectRow}
-            download={download}
-            index={index}
-            selected={selections[index]}
-          ></Row>
-        ))}
+        <thead>
+          <tr id="table-header-actions">
+            <th>
+              <input
+                type="checkbox"
+                id="all-selected-checkbox"
+                name="all-selected-checkbox"
+                value="all-selected"
+                onChange={() => {
+                  handleCheckAll();
+                }}
+                checked={allSelected}
+                aria-labelledby="select-all-checkbox-label"
+              ></input>
+            </th>
+            <th id="num-selected">
+              <label id="select-all-checkbox-label">
+                {numSelected ? `Selected ${numSelected}` : "None Selected"}
+              </label>
+            </th>
+            {/* Only show download button if something is selected */}
+            <th id="download-button">
+              {hasValidDownload ? (
+                <button onClick={handleClick}>Download Selected</button>
+              ) : null}
+            </th>
+          </tr>
+          <tr id="table-header-rows">
+            <th></th>
+            <th>Name</th>
+            <th>Device</th>
+            <th>Path</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {downloads?.map((download, index) => (
+            <Row
+              key={download.name}
+              handleCheck={handleSelectRow}
+              download={download}
+              index={index}
+              selected={selections[index]}
+            ></Row>
+          ))}
+        </tbody>
       </table>
     </>
   );

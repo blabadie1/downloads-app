@@ -44,6 +44,7 @@ const Row = ({ download, index, handleCheck, selected }: Props) => {
           }}
           checked={selected}
           aria-labelledby="download-name"
+          className="row-checkbox"
         ></input>
       </td>
       <td id="download-name">{download.name}</td>
