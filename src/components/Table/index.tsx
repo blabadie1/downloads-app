@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from "react";
 import Row from "../Row/index.tsx";
 // @ts-ignore
 import type { DownloadData } from "../types.tsx";
+import "./Table.css";
 
 type Props = {
   downloads: Array<DownloadData>;
@@ -57,7 +58,7 @@ const Table = ({ downloads }: Props) => {
     }
   }, [selections]);
 
-  const updateSelected = useCallback(
+  const handleSelectRow = useCallback(
     (index: number) => {
       const nextSelections = selections.slice();
       nextSelections[index] = !selections[index];
@@ -84,27 +85,34 @@ const Table = ({ downloads }: Props) => {
 
   return (
     <>
-      <div className="table-header-actions">
-        <input
-          type="checkbox"
-          id="all-selected-checkbox"
-          name="all-selected-checkbox"
-          value="all-selected"
-          onChange={() => {
-            handleCheckAll();
-          }}
-          checked={allSelected}
-        ></input>
-        <label htmlFor="selected-checkbox">
-          {numSelected ? `Selected ${numSelected}` : "None Selected"}
-        </label>
-        {/* Only show download button if something is selected */}
-        {hasValidDownload ? (
-          <button onClick={handleClick}>Download Selected</button>
-        ) : null}
-      </div>
-      <table className="table-header">
-        <tr>
+      <table id="table">
+        <tr id="table-header-actions">
+          <th>
+            <input
+              type="checkbox"
+              id="all-selected-checkbox"
+              name="all-selected-checkbox"
+              value="all-selected"
+              onChange={() => {
+                handleCheckAll();
+              }}
+              checked={allSelected}
+              aria-labelledby="select-all-checkbox-label"
+            ></input>
+          </th>
+          <th id="num-selected">
+            <label id="select-all-checkbox-label">
+              {numSelected ? `Selected ${numSelected}` : "None Selected"}
+            </label>
+          </th>
+          {/* Only show download button if something is selected */}
+          <th id="download-button">
+            {hasValidDownload ? (
+              <button onClick={handleClick}>Download Selected</button>
+            ) : null}
+          </th>
+        </tr>
+        <tr id="table-header-rows">
           <th></th>
           <th>Name</th>
           <th>Device</th>
@@ -113,7 +121,7 @@ const Table = ({ downloads }: Props) => {
         </tr>
         {downloads?.map((download, index) => (
           <Row
-            handleCheck={updateSelected}
+            handleCheck={handleSelectRow}
             download={download}
             index={index}
             selected={selections[index]}

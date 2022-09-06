@@ -1,0 +1,40 @@
+#table {
+    text-align: left;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#table tr:hover {
+    background-color: #ddd;
+}
+
+#table th {
+    margin: 0;
+    background-color: white;
+}
+
+#table td, #table th {
+    padding: 8px;
+}
+
+#table-header-rows th, #table td {
+    border-bottom: 1px #ddd;
+    border-bottom-style: solid;
+}
+
+#table-header-rows {
+    border-top: 1px #ddd;
+    border-top-style: solid;
+}
+
+#table-header-actions {
+    height: 50px;
+}
+
+#num-selected {
+    min-width: 130px;
+}
+
+#download-button {
+    min-width: 150px;
+}
