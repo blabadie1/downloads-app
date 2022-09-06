@@ -11,12 +11,23 @@ type Props = {
 
 const Table = ({ downloads }: Props) => {
   const [selections, setSelections] = useState([]);
+  const [hasValidDownload, setValidDownload] = useState(false);
 
   useEffect(() => {
     if (downloads) {
       setSelections(new Array(downloads.length).fill(false));
     }
   }, [downloads]);
+
+  useEffect(() => {
+    let hasValidDownload = false;
+    selections.forEach((selection, index) => {
+      if (selection && downloads[index].status === "available") {
+        hasValidDownload = true;
+      }
+    });
+    setValidDownload(hasValidDownload);
+  }, [selections, downloads]);
 
   const updateSelected = useCallback(
     (index: number) => {
@@ -30,19 +41,13 @@ const Table = ({ downloads }: Props) => {
   // Generate alert message based on current selections
   const handleClick = useCallback(() => {
     let alertMessage = "Downloaded the following: ";
-    let hasValidDownload = false;
     selections.forEach((selection, index) => {
       if (selection && downloads[index].status === "available") {
-        hasValidDownload = true;
         const download = downloads[index];
         alertMessage += `\nPath: ${download.path}; Device: ${download.device}`;
       }
     });
-    if (hasValidDownload) {
-      window.alert(alertMessage);
-    } else {
-      window.alert("No valid downloads available");
-    }
+    window.alert(alertMessage);
   }, [downloads, selections]);
 
   const numSelected = selections.reduce(
@@ -63,9 +68,9 @@ const Table = ({ downloads }: Props) => {
           {numSelected ? `Selected ${numSelected}` : "None Selected"}
         </label>
         {/* Only show download button if something is selected */}
-        {numSelected && (
+        {hasValidDownload ? (
           <button onClick={handleClick}>Download Selected</button>
-        )}
+        ) : null}
       </div>
       <table className="table-header">
         <tr>
